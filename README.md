@@ -1,1 +1,8 @@
-# COP3530-Final_Proj
+# COP3530 Final Project
+
+Contributers:
+
+
+## Data
+Lahman's Dataset
+https://github.com/chadwickbureau/baseballdatabank/archive/master.zip
