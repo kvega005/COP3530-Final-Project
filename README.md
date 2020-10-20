@@ -10,5 +10,6 @@ Contributers:
 
 
 ## Data
-Lahman's Dataset
+<strong>Lahman's Dataset</strong>
+
 https://github.com/chadwickbureau/baseballdatabank/archive/master.zip
