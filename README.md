@@ -1,6 +1,7 @@
 # COP3530 Final Project
 
 Contributers:
+    Emily Namm
 
 
 ## Data
