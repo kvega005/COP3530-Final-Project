@@ -1,7 +1,12 @@
 # COP3530 Final Project
 
 Contributers:
+    
     Emily Namm
+
+    Joshua Best
+    
+    Kevin Vega
 
 
 ## Data
