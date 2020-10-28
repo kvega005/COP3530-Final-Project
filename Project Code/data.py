@@ -9,11 +9,11 @@ import random
 
 class Data:
     def __init__(self, path):
-        self.df = pd.DataFrame.from_csv(path)
+        self.df = pd.read_csv(path)
         self.sample_size = 0
-        self.sample = np.array()
+        self.rand_sample = []
 
-    def sample(self, N, statistic):
+    def sample(self, statistic, N):
         """
         input:
             @N: sample size
@@ -23,12 +23,13 @@ class Data:
         purpose:
             Make random sample from Data
         """
+        self.rand_sample = np.array(self.df[statistic].sample(N))
+        self.rand_sample = self.rand_sample[self.rand_sample != 0]
 
-        self.sample = random.sample(self.df[statistic], N).sort()
+    def histogram(self):
+        plt.hist(self.rand_sample, bins = sorted(self.rand_sample))
+        plt.show()
 
-    def histogram():
-        plt.hist(self.sample, self.sample)
-
-x = Data("Data/Batting.csv")
-x.sample("AB", 100)
+x = Data("C:\Kevin\Code\COP3530-Final-Project\Project Code\Data\Batting.csv")
+x.sample("AB", 1000)
 x.histogram()
