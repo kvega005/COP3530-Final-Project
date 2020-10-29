@@ -82,6 +82,18 @@ class Window:
         self.right_entry.bind("<Return>", self.update_sample_size)
         self.right_entry.pack(side = TOP)
 
+        # Graph type label
+        options = ["Histogram", "Homeruns", "Batting Average"]
+
+        self.variable = StringVar(self.root)
+        self.variable.set(options[0]) # default value
+        self.variable.trace("w", self.change_statistic) # track if statistic variable is written to
+
+        # Create option menu for statistic
+        self.statistic_dropdown = OptionMenu(*(self.right_frame, self.variable) + tuple(options))
+        self.statistic_dropdown.pack()
+
+
         self.root.mainloop()
 
 x = Window()
