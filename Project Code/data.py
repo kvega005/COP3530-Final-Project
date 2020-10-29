@@ -39,7 +39,7 @@ class Data:
         hist_bins = int(data_range/5)
 
         plt.hist(self.rand_sample, bins = hist_bins ,alpha = 0.5, label = "H")
-
+        plt.hist(self.df["H"], bins = hist_bins, alpha = 0.5, label= "Population")
         plt.legend(loc='upper right')
         plt.show()
     
