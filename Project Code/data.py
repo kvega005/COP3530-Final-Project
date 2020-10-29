@@ -24,12 +24,18 @@ class Data:
             Make random sample from Data
         """
         self.rand_sample = np.array(self.df[statistic].sample(N))
-        self.rand_sample = self.rand_sample[self.rand_sample != 0]
+        self.rand_sample = sorted(self.rand_sample[self.rand_sample != 0])
 
     def histogram(self):
-        plt.hist(self.rand_sample, bins = sorted(self.rand_sample))
+        plt.style.use('seaborn-deep')
+
+        bins = np.linspace(self.rand_sample[0], self.rand_sample[-1], len(self.rand_sample)/5)
+
+        plt.hist([self.rand_sample, self.df["weight"]], bins = bins, alpha = 0.5, label = ["Sample","Data"])
+
+        plt.legend(loc='upper right')
         plt.show()
 
-x = Data("C:\Kevin\Code\COP3530-Final-Project\Project Code\Data\Batting.csv")
-x.sample("AB", 1000)
+x = Data("C:\Kevin\Code\COP3530-Final-Project\Project Code\Data\People.csv")
+x.sample("weight", 10000)
 x.histogram()

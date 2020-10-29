@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter.messagebox import showinfo
 
+
 # https://www.tutorialspoint.com/python/tk_pack.htm
 # For making tkinter GUI
 
@@ -44,7 +45,6 @@ class Window:
 
         except ValueError:
             self.popup_showinfo()  
-            
 
     def __init__(self):
         self.root = Tk()
