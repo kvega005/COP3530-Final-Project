@@ -12,6 +12,7 @@ class Data:
         self.df = pd.read_csv(path)
         # Get rid of non numeric data and rows with missing entries
         self.df = self.df._get_numeric_data()
+        # Gets rid of rows with empty values
         self.df = self.df.dropna(axis= 'index')
 
         self.sample_size = 0
