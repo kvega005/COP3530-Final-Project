@@ -19,16 +19,16 @@ class Window:
         """
         print(self.variable.get())
 
-    def popup_showinfo(self):
+    def popup_showinfo(self, string = "Error!"):
         """
         input:
-            NaN
+            @string: Error message to be displayed in popup window
         output:
             popup window with message
         purpose:
             Warn user of erroneous inputs
         """
-        showinfo("Window", "Sample size must be an integer!!")
+        showinfo("Window", string)
 
     def update_sample_size(self, event):
         """
