@@ -95,5 +95,3 @@ class Window:
 
 
         self.root.mainloop()
-
-x = Window()
