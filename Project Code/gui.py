@@ -41,10 +41,12 @@ class Window:
         """
         try:
             new_size = int(self.right_entry.get())
+            if new_size < 1:
+                raise ValueError
             print(new_size)
 
         except ValueError:
-            self.popup_showinfo("Error: Sample size must be int!")  
+            self.popup_showinfo("Error: Sample size must be positive int!")  
 
     def __init__(self):
         self.root = Tk()
