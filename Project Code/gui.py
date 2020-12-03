@@ -18,8 +18,6 @@ class Window:
             track selections made in the statistic drop down menu
         """
         print(self.variable.get())
-        
-        self.graph_label.config(text=self.variable.get())
 
     def popup_showinfo(self, string = "Error!"):
         """
@@ -48,25 +46,7 @@ class Window:
             print(new_size)
 
         except ValueError:
-            self.popup_showinfo("Error: Sample size must be positive integer!")  
-    
-    def inputStats(self, mean, median, deviation, iqr):
-        """
-        input:
-            @mean: the mean of the sample
-            @median: the median of the sample
-            @deviation: the standard deviation of the sample
-            @iqr: the iqr of the sample
-        output:
-            displays statistics in the window
-        purpose:
-            reports results of the sampling to the user
-        """
-
-        self.mean_label.config(text="Mean: " + str(mean))
-        self.median_label.config(text="Median: " + str(median))
-        self.deviation_label.config(text="Standard Deviation: " + str(deviation))
-        self.iqr_label.config(text="IQR: " + str(iqr))
+            self.popup_showinfo("Error: Sample size must be positive int!")  
 
     def __init__(self):
         self.root = Tk()
@@ -79,28 +59,6 @@ class Window:
 
         self.right_frame = Frame(self.root)
         self.right_frame.pack(side = LEFT)
-        
-        # Graph Label
-
-        self.graph_label = Label(self.left_frame, text = "Graph", fg = "black")
-        self.graph_label.pack(side = TOP)
-
-        # Results Labels
-
-        self.results_label = Label(self.left_frame, text = "Statistics:", fg = "black")
-        self.results_label.pack(side = TOP)
-
-        self.mean_label = Label(self.left_frame, text = "Mean: ", fg = "black")
-        self.mean_label.pack(side = TOP)
-
-        self.median_label = Label(self.left_frame, text = "Median: ", fg = "black")
-        self.median_label.pack(side = TOP)
-
-        self.deviation_label = Label(self.left_frame, text = "Standard Deviation: ", fg = "black")
-        self.deviation_label.pack(side = TOP)
-
-        self.iqr_label = Label(self.left_frame, text = "IQR: ", fg = "black")
-        self.iqr_label.pack(side = TOP)
 
         # Label for statistic drop down menu
         self.statistic_label = Label(self.right_frame, text = "Statistic:", fg = "black")
@@ -120,6 +78,10 @@ class Window:
         # Label for sample size entry box
         self.sample_size_label = Label(self.right_frame, text = "Sample Size:", fg = "black")
         self.sample_size_label.pack(side = TOP)
+
+        #sample slider - I think I don't like the way it looks though
+        slider = Scale(self.root, from_=0, to=10000, orient=VERTICAL)
+        slider.pack()
 
         # Sample size entry box
         self.right_entry = Entry(self.right_frame, text = "0")
