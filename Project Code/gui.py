@@ -149,23 +149,9 @@ class Window:
         self.right_entry.pack(side = TOP, anchor = "nw")
 
 
-        # Label for the slider
-        sliderLabel=Label(self.right_frame, text= "Sample Size:")
-        sliderLabel.pack()
-
-        #sample slider
-        slider = Scale(self.right_frame, 
-        from_=0,  #min
-        to=10000, #max
-        orient=HORIZONTAL,
-        length=200,  # default is 100 pixels
-        
-        )
-        slider.pack()
-
          # Label for graph drop down menu
         self.graph_label = Label(self.right_frame, text = "Graph:", fg = "black")
-        self.graph_label.pack(side = TOP)
+        self.graph_label.pack(side = TOP, anchor = "nw")
 
         # Graph type label
         options = ["Histogram", "Box Plot", "Frequency Plot"]
@@ -176,18 +162,22 @@ class Window:
 
         # Create option menu for statistic
         self.statistic_dropdown = OptionMenu(*(self.right_frame, self.variable) + tuple(options))
-        self.statistic_dropdown.pack()
+        self.statistic_dropdown.pack(side = TOP, anchor = "nw")
+        
 
         #creates the first check box
         checkBox_1 = Checkbutton(self.right_frame,
         text = "Normalize Data",
+        anchor = "w"
         )
         checkBox_1.pack()
+        
         #creates the second check box
         checkBox_2 = Checkbutton(self.right_frame,
         text = "Compare Sample to Population",
         )
         checkBox_2.pack()
+       
         #creates the third check box
         checkBox_3 = Checkbutton(self.right_frame,
         text = "Compare to Normal Distribution",
