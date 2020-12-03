@@ -95,7 +95,7 @@ class Window:
         
         # Graph Label
 
-        self.graph_label = Label(self.left_frame, text = "Graph", fg = "black")
+        self.graph_label = Label(self.left_frame, text = "Graph", fg = "black", font = "Verdana 10 bold")
         self.graph_label.pack(side = TOP)
 
         # Graph
@@ -107,7 +107,7 @@ class Window:
 
         # Results Labels
 
-        self.results_label = Label(self.left_frame, text = "Statistics:", fg = "black")
+        self.results_label = Label(self.left_frame, text = "Statistics", fg = "black", font = "Verdana 10 underline")
         self.results_label.pack(side = TOP)
 
         self.mean_label = Label(self.left_frame, text = "Mean: ", fg = "black")
@@ -124,7 +124,7 @@ class Window:
 
         # Label for statistic drop down menu
         self.statistic_label = Label(self.right_frame, text = "Statistic:", fg = "black")
-        self.statistic_label.pack(side = TOP)
+        self.statistic_label.pack(side = TOP, anchor = "nw")
 
         # Options to be used in the drop down menu
         options = ["Hits", "Homeruns", "Batting Average"]
@@ -135,25 +135,26 @@ class Window:
 
         # Create option menu for statistic
         self.statistic_dropdown = OptionMenu(*(self.right_frame, self.variable) + tuple(options))
-        self.statistic_dropdown.pack()
+        self.statistic_dropdown.pack(side = TOP, anchor = "w")
 
         # Label for sample size entry box
         self.sample_size_label = Label(self.right_frame, text = "Sample Size:", fg = "black")
-        self.sample_size_label.pack(side = TOP)
+        self.sample_size_label.pack(side = TOP, anchor = "nw")
 
 
         # Sample size entry box
-        self.right_entry = Entry(self.right_frame, text = "0")
+        self.right_entry = Spinbox(self.right_frame, from_ = 1, to = 10000, width = 6)
         self.right_entry.bind("<Return>", self.update_sample_size)
-        self.right_entry.pack(side = TOP)
+        self.right_entry.bind("<Leave>", self.update_sample_size)
+        self.right_entry.pack(side = TOP, anchor = "nw")
 
 
         # Label for the slider
-        sliderLabel=Label(self.root, text= "Sample Size:")
+        sliderLabel=Label(self.right_frame, text= "Sample Size:")
         sliderLabel.pack()
 
         #sample slider
-        slider = Scale(self.root, 
+        slider = Scale(self.right_frame, 
         from_=0,  #min
         to=10000, #max
         orient=HORIZONTAL,
@@ -178,17 +179,17 @@ class Window:
         self.statistic_dropdown.pack()
 
         #creates the first check box
-        checkBox_1 = Checkbutton(self.root,
+        checkBox_1 = Checkbutton(self.right_frame,
         text = "Normalize Data",
         )
         checkBox_1.pack()
         #creates the second check box
-        checkBox_2 = Checkbutton(self.root,
+        checkBox_2 = Checkbutton(self.right_frame,
         text = "Compare Sample to Population",
         )
         checkBox_2.pack()
         #creates the third check box
-        checkBox_3 = Checkbutton(self.root,
+        checkBox_3 = Checkbutton(self.right_frame,
         text = "Compare to Normal Distribution",
         )
         checkBox_3.pack()

@@ -60,7 +60,7 @@ class Data:
 
         plt.hist(self.rand_sample, bins = hist_bins ,alpha = 0.5, label = "H")
         plt.legend(loc='upper right')
-        plt.show()
+        return plt
 
     def report(self):
         """
