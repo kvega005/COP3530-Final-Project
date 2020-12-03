@@ -87,12 +87,13 @@ class Window:
 
 
         # Label for the slider
-        sliderLable = Label(self.root, text="Sample Size")
+        sliderLabel=Label(self.root, text= "Sample Size:")
+        sliderLabel.pack()
 
-        #sample slider - I think I don't like the way it looks though
+        #sample slider
         slider = Scale(self.root, 
-        from_=0, 
-        to=10000, 
+        from_=0,  #min
+        to=10000, #max
         orient=HORIZONTAL,
         length=200,  # default is 100 pixels
         
