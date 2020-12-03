@@ -165,25 +165,47 @@ class Window:
         self.statistic_dropdown.pack(side = TOP, anchor = "nw")
         
 
-        #creates the first check box
+        #creates the first check box with a variable called cb1 to store the 0 for unchecked or 1 for checked
         checkBox_1 = Checkbutton(self.right_frame,
         text = "Normalize Data",
         anchor = "w"
+        #variable = cb1,
         )
         checkBox_1.pack()
         
-        #creates the second check box
+        #creates the second check box with a variable called cb2 to store the 0 for unchecked or 1 for checked
         checkBox_2 = Checkbutton(self.right_frame,
         text = "Compare Sample to Population",
+        #variable = cb2,
         )
         checkBox_2.pack()
        
-        #creates the third check box
+        #creates the third check box with a variable called cb3 to store the 0 for unchecked or 1 for checked
         checkBox_3 = Checkbutton(self.right_frame,
         text = "Compare to Normal Distribution",
+        #variable = cb3,
         )
         checkBox_3.pack()
 
+        #creates a label with a variable to display the run time for the first algorithm
+        algorithm1 = StringVar()
+        algo1 = Label( self.right_frame,
+        textvariable=algorithm1, 
+        text = "Algorithm 2 time:",
+        )
+        algorithm1.set("here would be the time in ms with the variable int as a string")
+        algo1.pack()
+
+
+        #creates a label with a variable to display the run time for the second algorithm
+        algorithm2 = StringVar()
+        algo2 = Label( self.right_frame,
+        text = "Algorithm1 2 time:",
+        textvariable=algorithm2, 
+        
+        )
+        algorithm2.set("here would be the time in ms with the variable int as a string") #example usage of how to set the lable for the two times
+        algo2.pack()
 
 
         self.root.mainloop()
