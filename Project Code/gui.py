@@ -84,8 +84,12 @@ class Window:
         self.right_entry.bind("<Return>", self.update_sample_size)
         self.right_entry.pack(side = TOP)
 
+         # Label for graph drop down menu
+        self.graph_label = Label(self.right_frame, text = "Graph:", fg = "black")
+        self.graph_label.pack(side = TOP)
+
         # Graph type label
-        options = ["Histogram", "Homeruns", "Batting Average"]
+        options = ["Histogram", "Box Plot", "Frequency Plot"]
 
         self.variable = StringVar(self.root)
         self.variable.set(options[0]) # default value
