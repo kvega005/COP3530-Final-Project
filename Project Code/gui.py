@@ -79,14 +79,25 @@ class Window:
         self.sample_size_label = Label(self.right_frame, text = "Sample Size:", fg = "black")
         self.sample_size_label.pack(side = TOP)
 
-        #sample slider - I think I don't like the way it looks though
-        slider = Scale(self.root, from_=0, to=10000, orient=VERTICAL)
-        slider.pack()
 
         # Sample size entry box
         self.right_entry = Entry(self.right_frame, text = "0")
         self.right_entry.bind("<Return>", self.update_sample_size)
         self.right_entry.pack(side = TOP)
+
+
+        # Label for the slider
+        sliderLable = Label(self.root, text="Sample Size")
+
+        #sample slider - I think I don't like the way it looks though
+        slider = Scale(self.root, 
+        from_=0, 
+        to=10000, 
+        orient=HORIZONTAL,
+        length=200,  # default is 100 pixels
+        
+        )
+        slider.pack()
 
          # Label for graph drop down menu
         self.graph_label = Label(self.right_frame, text = "Graph:", fg = "black")
