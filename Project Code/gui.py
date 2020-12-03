@@ -177,6 +177,23 @@ class Window:
         self.statistic_dropdown = OptionMenu(*(self.right_frame, self.variable) + tuple(options))
         self.statistic_dropdown.pack()
 
+        #creates the first check box
+        checkBox_1 = Checkbutton(self.root,
+        text = "Normalize Data",
+        )
+        checkBox_1.pack()
+        #creates the second check box
+        checkBox_2 = Checkbutton(self.root,
+        text = "Compare Sample to Population",
+        )
+        checkBox_2.pack()
+        #creates the third check box
+        checkBox_3 = Checkbutton(self.root,
+        text = "Compare to Normal Distribution",
+        )
+        checkBox_3.pack()
+
+
 
         self.root.mainloop()
 
