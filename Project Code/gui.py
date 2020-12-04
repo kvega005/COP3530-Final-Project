@@ -1,4 +1,5 @@
 from tkinter import *
+from data import *
 from tkinter.messagebox import showinfo
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -15,12 +16,24 @@ class Window:
             @index: index of variable if it is a list or an empty string
             @operation: the operation performed on the variable ("w": write, "r":read)
         output:
-            prints the item chosen in the dropdown menu
+            prints the item chosen in the statistic dropdown menu
         purpose:
             track selections made in the statistic drop down menu
         """
-        print(self.variable.get())
-        self.graph_label.config(text=self.variable.get())
+        print(self.statistic.get())
+
+    def change_graph(self, var_name, index, operation):
+        """
+        input: 
+            @var_name: name of variable modified
+            @index: index of variable if it is a list or an empty string
+            @operation: the operation performed on the variable ("w": write, "r":read)
+        output:
+            prints the item chosen in the graph type dropdown menu
+        purpose:
+            track selections made in the graph type drop down menu
+        """
+        print(self.graph_type.get())
 
     def popup_showinfo(self, string = "Error!"):
         """
@@ -46,10 +59,12 @@ class Window:
             new_size = int(self.right_entry.get())
             if new_size < 1:
                 raise ValueError
-            print(new_size)
 
         except ValueError:
-            self.popup_showinfo("Error: Sample size must be positive int!") 
+            self.popup_showinfo("Error: Sample size must be a positive, non zero integer!") 
+
+        self.sample_size = new_size
+        self.updateGraph()
             
     def inputStats(self, mean, median, deviation, iqr):
         """
@@ -69,20 +84,31 @@ class Window:
         self.deviation_label.config(text="Standard Deviation: " + str(deviation))
         self.iqr_label.config(text="IQR: " + str(iqr))
 
-    def printGraph(self, figure):
+    def updateGraph(self):
         """
         input:
             @figure: the matplotlib graph of the data
         output:
-            displays the graph
+            updates the graph
         purpose:
             allows user to see the sample distribution
         """
-
-        self.chart.figure = figure
+        self.data.sample(self.statistic.get(), N = self.sample_size)
+        histogram_args = self.data.histogram()
+        
+        plot = self.chart.figure.gca()
+        plot.clear()
+        plot.hist(histogram_args[0], histogram_args[1], alpha = 0.5, label = self.statistic.get())
+        self.chart.draw()
 
     def __init__(self):
         self.root = Tk()
+        self.data = Data("C:\Kevin\Code\COP3530-Final-Project\Project Code\Data\Batting.csv")
+        self.sample_size = 1
+
+        statistics = self.data.statistics()
+
+        self.data.sample(statistics[0], N = self.sample_size)
 
         # Make Left Frame For Graph And Statistics
         self.left_frame = Frame(self.root)
@@ -99,10 +125,13 @@ class Window:
         self.graph_label.pack(side = TOP)
 
         # Graph
-
-        self.fig = plt.Figure(figsize=(5,4), dpi = 100)
+        fig = plt.Figure(figsize=(5,4), dpi = 100)
+        plot = fig.gca()
+        histogram_args = self.data.histogram()
         
-        self.chart = FigureCanvasTkAgg(self.fig,self.left_frame)
+
+        plot.hist(histogram_args[0], histogram_args[1], alpha = 0.5, label = statistics[0])
+        self.chart = FigureCanvasTkAgg(fig,self.left_frame)
         self.chart.get_tk_widget().pack()
 
         # Results Labels
@@ -126,15 +155,13 @@ class Window:
         self.statistic_label = Label(self.right_frame, text = "Statistic:", fg = "black")
         self.statistic_label.pack(side = TOP, anchor = "nw")
 
-        # Options to be used in the drop down menu
-        options = ["Hits", "Homeruns", "Batting Average"]
-
-        self.variable = StringVar(self.root)
-        self.variable.set(options[0]) # default value
-        self.variable.trace("w", self.change_statistic) # track if statistic variable is written to
-
         # Create option menu for statistic
-        self.statistic_dropdown = OptionMenu(*(self.right_frame, self.variable) + tuple(options))
+        self.statistic = StringVar(self.root)
+        self.statistic.set(statistics[0]) # default value
+        self.statistic.trace("w", self.change_statistic) # track if statistic variable is written to
+
+        
+        self.statistic_dropdown = OptionMenu(*(self.right_frame, self.statistic) + tuple(statistics))
         self.statistic_dropdown.pack(side = TOP, anchor = "w")
 
         # Label for sample size entry box
@@ -154,14 +181,14 @@ class Window:
         self.graph_label.pack(side = TOP, anchor = "nw")
 
         # Graph type label
-        options = ["Histogram", "Box Plot", "Frequency Plot"]
+        graph_statistics = ["Histogram", "Box Plot", "Frequency Plot"]
 
-        self.variable = StringVar(self.root)
-        self.variable.set(options[0]) # default value
-        self.variable.trace("w", self.change_statistic) # track if statistic variable is written to
+        self.graph_type = StringVar(self.root)
+        self.graph_type.set(graph_statistics[0]) # default value
+        self.graph_type.trace("w", self.change_graph) # track if statistic variable is written to
 
         # Create option menu for statistic
-        self.statistic_dropdown = OptionMenu(*(self.right_frame, self.variable) + tuple(options))
+        self.statistic_dropdown = OptionMenu(*(self.right_frame, self.graph_type) + tuple(graph_statistics))
         self.statistic_dropdown.pack(side = TOP, anchor = "nw")
         
 

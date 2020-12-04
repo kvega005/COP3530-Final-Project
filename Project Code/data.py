@@ -19,6 +19,17 @@ class Data:
         self.sample_size = 0
         self.rand_sample = []
 
+    def statistics(self):
+        """
+        input:
+            NaN
+        output:
+            Returns list of statistics available in the csv file
+        Purpose:
+            Get a list of categories that can be used in the data analysis
+        """
+        return self.df.keys()
+
     def sample(self, statistic, N, mergeSort = False):
         """
         input:
@@ -55,12 +66,13 @@ class Data:
 
         plt.style.use('seaborn-deep')
         
-        data_range = self.rand_sample[-1] - self.rand_sample[0]
-        hist_bins = int(data_range/5)
+        if len(self.rand_sample) != 1:
+            data_range = self.rand_sample[-1] - self.rand_sample[0]
+            hist_bins = int(data_range/5)
+        else:
+            hist_bins = 5
 
-        plt.hist(self.rand_sample, bins = hist_bins ,alpha = 0.5, label = "H")
-        plt.legend(loc='upper right')
-        return plt
+        return self.rand_sample, hist_bins 
 
     def report(self):
         """
@@ -84,10 +96,13 @@ class Data:
     def print_columns(self):
         print(self.df.keys())
         print(len(self.df["H"]))
-        
+
+
+"""
 x = Data("C:\Kevin\Code\COP3530-Final-Project\Project Code\Data\Batting.csv")
 print(x.sample("SO", 10000))
 x.histogram()
 
 for i in x.report():
     print(i, end = " ")
+"""
