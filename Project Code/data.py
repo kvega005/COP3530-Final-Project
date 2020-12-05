@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import random
 import time
+import math
 
 # https://pandas.pydata.org/pandas-docs/stable/user_guide/10min.html
 # For creating data frame
@@ -30,7 +31,7 @@ class Data:
         """
         return self.df.keys()
 
-    def sample(self, statistic, N, mergeSort = False):
+    def sample(self, statistic, N, sorting_alg = "MergeSort"):
         """
         input:
             @statistic: statistic to be sampled
@@ -43,15 +44,15 @@ class Data:
         self.sample_size = N
         self.rand_sample = np.array(self.df[statistic].sample(N))
 
-        start = time.perf_counter()
+        start = time.perf_counter_ns()
 
-        if mergeSort:
+        if sorting_alg == "MergeSort":
             # the mergesort implementation is actually timsort
             self.rand_sample = np.sort(self.rand_sample,kind = 'mergesort') 
         else:
             self.rand_sample = np.sort(self.rand_sample, kind = 'quicksort')
 
-        end = time.perf_counter()
+        end = time.perf_counter_ns()
 
         return end - start
 
@@ -86,7 +87,8 @@ class Data:
         mean = np.nanmean(self.rand_sample)
         median = np.nanmedian(self.rand_sample)
 
-        std_variation = np.nanvar(self.rand_sample)
+        # std_var = sqrt(variance)
+        std_variation = math.sqrt(np.nanvar(self.rand_sample))
 
         max_val = self.rand_sample[-1]
         min_val = self.rand_sample[0]
