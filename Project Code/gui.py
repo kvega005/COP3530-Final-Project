@@ -23,6 +23,10 @@ class Window:
             track selections made in the statistic drop down menu
         """
         self. stat = self.statistic.get()
+        
+        time = self.data.sample(self.stat, N = self.sample_size, sorting_alg = self.radio_variable.get())
+        self.alg_label.config(text="Sorting Time: %d ns" % time)
+        
         self.updateGraph()
         self.updateStats()
 
@@ -38,7 +42,7 @@ class Window:
         purpose:
             track selections made in the graph type drop down menu
         """
-        print(self.graph_type.get())
+        self.updateGraph()
 
     def popup_showinfo(self, string = "Error!"):
         """
@@ -71,6 +75,10 @@ class Window:
 
                 if self.sample_size != new_size:
                     self.sample_size = new_size
+
+                    time = self.data.sample(self.stat, N = self.sample_size, sorting_alg = self.radio_variable.get())
+                    self.alg_label.config(text="Sorting Time: %d ns" % time)
+
                     self.updateGraph()
                     self.updateStats()
             
@@ -109,10 +117,12 @@ class Window:
         purpose:
             allows user to see the sample distribution
         """
-        time = self.data.sample(self.stat, N = self.sample_size, sorting_alg = self.radio_variable.get())
-        self.alg_label.config(text="Sorting Time: %d ns" % time)
+        
 
+        
         histogram_args = self.data.histogram()
+        
+        graph = self.graph_type.get()
         
         plot = self.chart.figure.gca()
         plot.clear()
@@ -125,12 +135,34 @@ class Window:
         plot.spines['left'].set_color('white')
         plot.xaxis.label.set_color('white')
         plot.tick_params(axis='y', colors='white')
-
-        histogram_args = self.data.histogram()
         
         plot.set_title(self.stat)
         plot.title.set_color("white")
-        plot.hist(histogram_args[0], histogram_args[1], color=GATOR_ORANGE,  alpha = 0.9, label = self.stat)
+
+        if graph == "Box Plot":
+            bp = plot.boxplot(self.data.rand_sample)
+            
+            for box in bp['boxes']:
+                # change outline color
+                box.set( color=GATOR_ORANGE, linewidth=2)
+
+            for whisker in bp['whiskers']:
+                whisker.set(color=GATOR_ORANGE, linewidth=2)
+            
+            for cap in bp['caps']:
+                cap.set(color=GATOR_ORANGE, linewidth=2)
+
+            ## change color and linewidth of the medians
+            for median in bp['medians']:
+                median.set(color=GATOR_ORANGE, linewidth=2)
+
+            for flier in bp['fliers']:
+                flier.set(marker='o', color=GATOR_BLUE, alpha=1)
+
+        else:
+            histogram_args = self.data.histogram()
+            plot.hist(histogram_args[0], histogram_args[1], color=GATOR_ORANGE,  alpha = 0.9, label = self.stat)
+        
         self.chart.draw()
 
     def __init__(self, path):
@@ -275,7 +307,7 @@ class Window:
         self.graph_label.pack(side = TOP, anchor = "nw")
 
         # Graph type label
-        graph_statistics = ["Histogram", "Box Plot", "Frequency Plot"]
+        graph_statistics = ["Histogram", "Box Plot"]
 
         self.graph_type = StringVar(self.root)
         self.graph_type.set(graph_statistics[0]) # default value
@@ -290,6 +322,7 @@ class Window:
         checkBox_1 = Checkbutton(
             self.right_frame,
             text = "Normalize Data",
+            selectcolor = "black",
             anchor = "w"
             #variable = self.normalize,
         )
@@ -298,6 +331,7 @@ class Window:
         #creates the second check box with a variable called cb2 to store the 0 for unchecked or 1 for checked
         checkBox_2 = Checkbutton(   
             self.right_frame,
+            selectcolor = "black",
             text = "Compare Sample to Population",
             #variable = self.comp_to_sample,
         )
@@ -306,6 +340,7 @@ class Window:
         #creates the third check box with a variable called cb3 to store the 0 for unchecked or 1 for checked
         checkBox_3 = Checkbutton(   
             self.right_frame,
+            selectcolor = "black",
             text = "Compare to Normal Distribution",
             #variable = compare_to_normal,
         )
