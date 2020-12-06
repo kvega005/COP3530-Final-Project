@@ -27,6 +27,10 @@ class Window:
         self. stat = self.statistic.get()
         
         time = self.data.sample(self.stat, N = self.sample_size, sorting_alg = self.radio_variable.get())
+
+        if self.var1.get() == 1:
+            self.data.normalize_sample()
+        
         self.alg_label.config(text="Sorting Time: %d ns" % time)
         
         self.updateGraph()
@@ -79,6 +83,10 @@ class Window:
                     self.sample_size = new_size
 
                     time = self.data.sample(self.stat, N = self.sample_size, sorting_alg = self.radio_variable.get())
+                    
+                    if self.var1.get() == 1:
+                        self.data.normalize_sample()
+                    
                     self.alg_label.config(text="Sorting Time: %d ns" % time)
 
                     self.updateGraph()
@@ -187,7 +195,6 @@ class Window:
             self.updateGraph()
         
         if self.var1.get() == 0:
-            print("Denormalize!!")
             self.data.denormalize_sample()
             self.updateStats()
             self.updateGraph()
@@ -200,7 +207,6 @@ class Window:
         statistics = self.data.statistics()
 
         time = self.data.sample(statistics[0], N = self.sample_size)
-        
         
         self.root.tk_setPalette(
             background='black', 
