@@ -7,6 +7,7 @@ from numpy import *
 from math import *
 from scipy.stats import norm
 
+
 # https://www.tutorialspoint.com/python/tk_pack.htm
 # For making tkinter GUI
 
@@ -332,11 +333,13 @@ class Window:
         
 
         #creates the first check box with a variable called cb1 to store the 0 for unchecked or 1 for checked
-        checkBox_1 = Checkbutton(
+        self.var1 = IntVar()
+        self.checkBox_1 = Checkbutton(
             self.right_frame,
             text = "Normalize Data",
             selectcolor = "black",
             anchor = "w"
+            variable = self.var1,
             #variable = self.normalize,
         )
         checkBox_1.pack(side = TOP, anchor = "nw")
