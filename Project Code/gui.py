@@ -4,6 +4,8 @@ from tkinter.messagebox import showinfo
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from numpy import *
+from math import *
+from scipy.stats import norm
 
 
 # https://www.tutorialspoint.com/python/tk_pack.htm
@@ -168,7 +170,7 @@ class Window:
                 mean, median, std, max_val, min_val = self.data.report()
                 x = np.linspace(min_val, max_val, 100)
                 
-                n = lambda t: self.sample_size * t
+                n = lambda t: self.sample_size * t * max(10, (max_val - min_val)/5)
                 z = norm.pdf(x,mean,std)
                 y = np.array([n(zi) for zi in z])
 
