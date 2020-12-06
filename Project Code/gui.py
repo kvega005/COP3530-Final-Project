@@ -166,7 +166,7 @@ class Window:
             histogram_args = self.data.histogram()
             if(self.var3.get()):
                 mean, median, std, max_val, min_val = self.data.report()
-                x = np.linspace(min_val, max_val, 10)
+                x = np.linspace(min_val, max_val, 100)
                 
                 n = lambda t: self.sample_size * t
                 z = norm.pdf(x,mean,std)
