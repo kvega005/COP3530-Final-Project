@@ -15,6 +15,19 @@ GATOR_BLUE = "#003087"
 GATOR_ORANGE = '#FA4616'
 
 class Window:
+    def compare_to_normal(self, var_name, index, operation):
+        """
+        input:
+            @var_name: name of variable modified
+            @index: index of variable if it is a list or an empty string
+            @operation: the operation performed on the variable ("w": write, "r":read)
+        output:
+            Updates graph
+        Purpose:
+            Add or remove normal distribution from graph
+        """
+        self.updateGraph()
+
     def change_statistic(self, var_name, index, operation):
         """
         input: 
@@ -74,11 +87,13 @@ class Window:
         purpose:
             track inputs to sample size entry box
         """
-        if not self.sample.get() == "" and int(self.sample.get()) >= 2:
-            new_size = int(self.sample.get())
+        try:
+            int(self.sample.get())
 
             try:
-                if new_size > len(self.data.df[self.stat]):
+                new_size = int(self.sample.get())
+
+                if new_size > len(self.data.df[self.stat]) or new_size <= 1:
                     raise ValueError
 
                 if self.sample_size != new_size:
@@ -93,9 +108,11 @@ class Window:
 
                     self.updateGraph()
                     self.updateStats()
-            
+        
             except ValueError:
-                self.popup_showinfo("Error! Sample size cannot be greater than population size or less than 0.")
+                self.popup_showinfo("Error! Sample size cannot be greater than population size or less than 1.")
+        except:
+            return
 
             
     def updateStats(self):
@@ -168,10 +185,18 @@ class Window:
             histogram_args = self.data.histogram()
             if(self.var3.get() == 1):
                 mean, median, std, max_val, min_val = self.data.report()
-                #x = np.linspace(min_val, max_val, num = self.sample_size)
+                x = np.linspace(min_val, max_val, 10000)
+                z = norm.pdf(x,mean,std)
+                
+                #Create a function to multiply each element in z by sample size and bin length before plotting
+                if((max_val - min_val)/5 < 10):
+                    n = lambda t: self.sample_size * t * (max_val - min_val)/10
+                else:
+                    n = lambda t: self.sample_size * t * 10
+                y = np.array([n(zi) for zi in z])
 
                 z = norm.pdf(self.data.rand_sample, mean, std)
-                plot.plot(self.data.rand_sample, z, color=GATOR_BLUE)
+                plot.plot(x, y, color=GATOR_BLUE)
                 
             plot.hist(histogram_args[0], color=GATOR_ORANGE,  alpha = 0.9, label = self.stat)
         
@@ -370,6 +395,7 @@ class Window:
             text = "Compare to Normal Distribution",
             variable = self.var3
         )
+        self.var3.trace("w",self.compare_to_normal)
         checkBox_3.pack(side = TOP, anchor = "nw")
 
         #creates a label with a variable to display the run time for the first algorithm
