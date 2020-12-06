@@ -168,10 +168,14 @@ class Window:
             histogram_args = self.data.histogram()
             if(self.var3.get() == 1):
                 mean, median, std, max_val, min_val = self.data.report()
-                x = np.linspace(min_val, max_val, 100)
-                
-                n = lambda t: self.sample_size * t * max(10, (max_val - min_val)/5)
+                x = np.linspace(min_val, max_val, 10000)
                 z = norm.pdf(x,mean,std)
+                
+                #Create a function to multiply each element in z by sample size and bin length before plotting
+                if((max_val - min_val)/5 < 10):
+                    n = lambda t: self.sample_size * t * (max_val - min_val)/10
+                else:
+                    n = lambda t: self.sample_size * t * 10
                 y = np.array([n(zi) for zi in z])
 
                 plot.plot(x, y, color=GATOR_BLUE)
