@@ -66,12 +66,14 @@ class Data:
         """
 
         plt.style.use('seaborn-deep')
-        
-        if len(self.rand_sample) != 1:
+
+        hist_bins = 0
+
+        if len(self.rand_sample) > 1:
             data_range = self.rand_sample[-1] - self.rand_sample[0]
             hist_bins = int(data_range/5)
-        else:
-            hist_bins = 5
+
+        hist_bins = max(hist_bins, 15)
 
         return self.rand_sample, hist_bins 
 
@@ -99,7 +101,7 @@ class Data:
         print(self.df.keys())
         print(len(self.df["H"]))
 
-    def zScore(self):
+    def normalize_sample(self):
         """
         input:
             @takes in the data from the loaded csv file
@@ -109,20 +111,22 @@ class Data:
         purpose:
             Calculate statistics(z score(normalize data)) for random sample of data.
         """
-        mean = np.nanmean(self.rand_sample)
-        std_variation = math.sqrt(np.nanvar(self.rand_sample))
-        for i in self.data[statistics]:
-        normalize = (i-mean)/std_variation
+        self.mean = np.nanmean(self.rand_sample)
+        self.std_variation = math.sqrt(np.nanvar(self.rand_sample))
 
-        
-
-        return z
-
-"""
-x = Data("C:\Kevin\Code\COP3530-Final-Project\Project Code\Data\Batting.csv")
-print(x.sample("SO", 10000))
-x.histogram()
-
-for i in x.report():
-    print(i, end = " ")
-"""
+        for i in range(len(self.rand_sample)):
+            self.rand_sample[i] = (self.rand_sample[i]-self.mean)/self.std_variation
+    
+    def denormalize_sample(self):
+        """
+        input:
+            @takes in the data from the loaded csv file
+        output:
+            @returns a list containing 5 values:
+                returns a z score and places it on to the screen using the check box command option
+        purpose:
+            Calculate statistics(z score(normalize data)) for random sample of data.
+        """
+        for i in range(len(self.rand_sample)):
+            if not np.isnan(self.rand_sample[i]):
+                self.rand_sample[i] = self.rand_sample[i] * self.std_variation + self.mean

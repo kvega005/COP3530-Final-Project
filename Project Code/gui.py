@@ -4,8 +4,6 @@ from tkinter.messagebox import showinfo
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from numpy import *
-from math import *
-from scipy.stats import norm
 
 
 # https://www.tutorialspoint.com/python/tk_pack.htm
@@ -70,7 +68,7 @@ class Window:
         purpose:
             track inputs to sample size entry box
         """
-        if not self.sample.get() == "" and int(self.sample.get()) >= 0:
+        if not self.sample.get() == "" and int(self.sample.get()) >= 2:
             new_size = int(self.sample.get())
 
             try:
@@ -93,16 +91,12 @@ class Window:
     def updateStats(self):
         """
         input:
-            @mean: the mean of the sample
-            @median: the median of the sample
-            @deviation: the standard deviation of the sample
-            @iqr: the iqr of the sample
+            @NaN
         output:
             displays statistics in the window
         purpose:
             reports results of the sampling to the user
         """
-
         mean, median, std_variation, max_val, min_val = self.data.report()
         
         self.n_label.config(text="N: " + str(self.sample_size))
@@ -120,10 +114,7 @@ class Window:
             updates the graph
         purpose:
             allows user to see the sample distribution
-        """
-        
-
-        
+        """       
         histogram_args = self.data.histogram()
         
         graph = self.graph_type.get()
@@ -179,10 +170,32 @@ class Window:
         
         self.chart.draw()
 
+    def normalize(self, var_name, index, operation):
+        """
+        input: 
+            @var_name: name of variable modified
+            @index: index of variable if it is a list or an empty string
+            @operation: the operation performed on the variable ("w": write, "r":read)
+        output:
+            Change data points to Z-Scores, and update stats and graph
+        purpose:
+            Normalize data
+        """
+        if self.var1.get() == 1:
+            self.data.normalize_sample()
+            self.updateStats()
+            self.updateGraph()
+        
+        if self.var1.get() == 0:
+            print("Denormalize!!")
+            self.data.denormalize_sample()
+            self.updateStats()
+            self.updateGraph()
+
     def __init__(self, path):
         self.root = Tk()
         self.data = Data(path)
-        self.sample_size = 1
+        self.sample_size = 2
 
         statistics = self.data.statistics()
 
@@ -308,7 +321,7 @@ class Window:
         self.right_entry = Spinbox(
             self.right_frame, 
             textvariable = self.sample,
-            from_ = 1, 
+            from_ = 2, 
             to = 100000, 
             width = 6
         )
@@ -334,36 +347,25 @@ class Window:
 
         #creates the first check box with a variable called cb1 to store the 0 for unchecked or 1 for checked
         self.var1 = IntVar()
-        self.checkBox_1 = Checkbutton(
+        checkBox_1 = Checkbutton(
             self.right_frame,
             text = "Normalize Data",
             selectcolor = "black",
-            anchor = "w"
-            variable = self.var1,
-            #variable = self.normalize,
+            anchor = "w",
+            variable = self.var1
         )
         checkBox_1.pack(side = TOP, anchor = "nw")
-        
-        #creates the second check box with a variable called cb2 to store the 0 for unchecked or 1 for checked
-        # added the command function to trigger my zScores function on button push
-        checkBox_2 = Checkbutton(   
-            self.right_frame,
-            selectcolor = "black",
-            text = "Compare Sample to Population",
-            #variable = self.comp_to_sample,
-        )
-        checkBox_2.pack(side = TOP, anchor = "nw")
+        self.var1.trace("w", self.normalize)
        
         #creates the third check box with a variable called cb3 to store the 0 for unchecked or 1 for checked
         self.var3 = IntVar()
-        self.checkBox_3 = Checkbutton(   
+        checkBox_3 = Checkbutton(   
             self.right_frame,
             selectcolor = "black",
             text = "Compare to Normal Distribution",
-            variable = self.var3,
-            #variable = compare_to_normal,
+            variable = self.var3
         )
-        self.checkBox_3.pack(side = TOP, anchor = "nw")
+        checkBox_3.pack(side = TOP, anchor = "nw")
 
         #creates a label with a variable to display the run time for the first algorithm
         self.alg_label = Label( 
