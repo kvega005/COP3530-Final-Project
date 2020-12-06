@@ -168,15 +168,12 @@ class Window:
             histogram_args = self.data.histogram()
             if(self.var3.get() == 1):
                 mean, median, std, max_val, min_val = self.data.report()
-                x = np.linspace(min_val, max_val, 100)
-                
-                n = lambda t: self.sample_size * t * max(10, (max_val - min_val)/5)
-                z = norm.pdf(x,mean,std)
-                y = np.array([n(zi) for zi in z])
+                #x = np.linspace(min_val, max_val, num = self.sample_size)
 
-                plot.plot(x, y, color=GATOR_BLUE)
+                z = norm.pdf(self.data.rand_sample, mean, std)
+                plot.plot(self.data.rand_sample, z, color=GATOR_BLUE)
                 
-            plot.hist(histogram_args[0], histogram_args[1], color=GATOR_ORANGE,  alpha = 0.9, label = self.stat)
+            plot.hist(histogram_args[0], color=GATOR_ORANGE,  alpha = 0.9, label = self.stat)
         
         self.chart.draw()
 
