@@ -99,6 +99,24 @@ class Data:
         print(self.df.keys())
         print(len(self.df["H"]))
 
+    def zScore(self):
+        """
+        input:
+            @takes in the data from the loaded csv file
+        output:
+            @returns a list containing 5 values:
+                returns a z score and places it on to the screen using the check box command option
+        purpose:
+            Calculate statistics(z score(normalize data)) for random sample of data.
+        """
+        mean = np.nanmean(self.rand_sample)
+        std_variation = math.sqrt(np.nanvar(self.rand_sample))
+        for i in self.data[statistics]:
+            normalize = (i-mean)/std_variation
+
+        
+
+        return z
 
 """
 x = Data("C:\Kevin\Code\COP3530-Final-Project\Project Code\Data\Batting.csv")

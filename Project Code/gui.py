@@ -329,6 +329,7 @@ class Window:
         checkBox_1.pack(side = TOP, anchor = "nw")
         
         #creates the second check box with a variable called cb2 to store the 0 for unchecked or 1 for checked
+        # added the command function to trigger my zScores function on button push
         checkBox_2 = Checkbutton(   
             self.right_frame,
             selectcolor = "black",
