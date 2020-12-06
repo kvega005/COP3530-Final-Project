@@ -3,6 +3,9 @@ from data import *
 from tkinter.messagebox import showinfo
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from numpy import *
+from math import *
+from scipy.stats import norm
 
 # https://www.tutorialspoint.com/python/tk_pack.htm
 # For making tkinter GUI
@@ -161,6 +164,16 @@ class Window:
 
         else:
             histogram_args = self.data.histogram()
+            if(self.var3.get()):
+                mean, median, std, max_val, min_val = self.data.report()
+                x = np.linspace(min_val, max_val, 10)
+                
+                n = lambda t: self.sample_size * t
+                z = norm.pdf(x,mean,std)
+                y = np.array([n(zi) for zi in z])
+
+                plot.plot(x, y, color=GATOR_BLUE)
+                
             plot.hist(histogram_args[0], histogram_args[1], color=GATOR_ORANGE,  alpha = 0.9, label = self.stat)
         
         self.chart.draw()
@@ -339,13 +352,15 @@ class Window:
         checkBox_2.pack(side = TOP, anchor = "nw")
        
         #creates the third check box with a variable called cb3 to store the 0 for unchecked or 1 for checked
-        checkBox_3 = Checkbutton(   
+        self.var3 = IntVar()
+        self.checkBox_3 = Checkbutton(   
             self.right_frame,
             selectcolor = "black",
             text = "Compare to Normal Distribution",
+            variable = self.var3,
             #variable = compare_to_normal,
         )
-        checkBox_3.pack(side = TOP, anchor = "nw")
+        self.checkBox_3.pack(side = TOP, anchor = "nw")
 
         #creates a label with a variable to display the run time for the first algorithm
         self.alg_label = Label( 
