@@ -164,7 +164,7 @@ class Window:
 
         else:
             histogram_args = self.data.histogram()
-            if(self.var3.get()):
+            if(self.var3.get() == 1):
                 mean, median, std, max_val, min_val = self.data.report()
                 x = np.linspace(min_val, max_val, 100)
                 
@@ -363,7 +363,7 @@ class Window:
         checkBox_1.pack(side = TOP, anchor = "nw")
         self.var1.trace("w", self.normalize)
        
-        #creates the third check box with a variable called cb3 to store the 0 for unchecked or 1 for checked
+        #creates the third check box with a variable called to store the 0 for unchecked or 1 for checked
         self.var3 = IntVar()
         checkBox_3 = Checkbutton(   
             self.right_frame,
