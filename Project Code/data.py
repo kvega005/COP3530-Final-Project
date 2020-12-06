@@ -111,12 +111,12 @@ class Data:
         """
         mean = np.nanmean(self.rand_sample)
         std_variation = math.sqrt(np.nanvar(self.rand_sample))
-        for i in self.data[statistics]:
+        for i in range self.data[statistics]:
             normalize = (i-mean)/std_variation
 
         
 
-        return z
+        return normalize
 
 """
 x = Data("C:\Kevin\Code\COP3530-Final-Project\Project Code\Data\Batting.csv")
