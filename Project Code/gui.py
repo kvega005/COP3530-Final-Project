@@ -185,7 +185,7 @@ class Window:
             histogram_args = self.data.histogram()
             if(self.var3.get() == 1):
                 mean, median, std, max_val, min_val = self.data.report()
-                x = np.linspace(min_val, max_val, 10000)
+                x = np.linspace(min_val, max_val, 1000)
                 z = norm.pdf(x,mean,std)
                 
                 #Create a function to multiply each element in z by sample size and bin length before plotting
