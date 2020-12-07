@@ -17,7 +17,7 @@
 - Delivers proper error messages
 
 # References
-### Reading From CSV
+## Reading From CSV
 https://pandas.pydata.org/pandas-docs/stable/user_guide/10min.html
 
 ### Handling Statistical Calculations
@@ -27,13 +27,13 @@ https://numpy.org/doc/stable/
 
 https://numpy.org/doc/stable/reference/routines.statistics.html
 
-### Plotting Data
+## Plotting Data
 https://matplotlib.org/3.1.1/gallery/statistics/hist.html
 
 https://www.tutorialspoint.com/matplotlib/matplotlib_box_plot.htm
 
 
-### Managing GUI
+## Managing GUI
 
 https://docs.python.org/3/library/tk.html 
 
