@@ -20,7 +20,7 @@
 ## Reading From CSV
 https://pandas.pydata.org/pandas-docs/stable/user_guide/10min.html
 
-### Handling Statistical Calculations
+## Handling Statistical Calculations
 https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.norm.html#scipy.stats.norm
 
 https://numpy.org/doc/stable/
