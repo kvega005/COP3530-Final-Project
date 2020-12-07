@@ -15,3 +15,15 @@
 - Plots all data
 - Takes user input
 - Delivers proper error messages
+
+# References
+https://pandas.pydata.org/pandas-docs/stable/user_guide/10min.html
+
+https://numpy.org/doc/stable/
+https://numpy.org/doc/stable/reference/routines.statistics.html
+
+https://docs.python.org/3/library/tk.html
+https://pythonbasics.org/tkinter-radiobutton/
+
+https://matplotlib.org/3.1.1/gallery/statistics/hist.html
+https://www.tutorialspoint.com/matplotlib/matplotlib_box_plot.htm
